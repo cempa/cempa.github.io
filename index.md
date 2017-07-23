@@ -1,7 +1,6 @@
 ---
 layout: permascript
 title: Permalinkable Beowulf
+canon: beowulf
 ---
 
-<div id="permascript">
-</div>

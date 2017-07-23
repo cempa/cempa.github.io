@@ -4,10 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>{{page.title}}</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <link rel="stylesheet" href="css/permascript.css">
+    <script src="js/permascript.js"></script>
   </head>
   <body>
-    {{content}}
+    <div id="permascript"> </div>
+    <script>
+      window.canon = "{{ page.canon }}";
+    </script>
   </body>
 </html>
