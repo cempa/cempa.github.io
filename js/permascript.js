@@ -42,7 +42,7 @@ class PermaScript {
 
   setPermahash(hash) {
     let [address, lineNo] = /^#(\d+)/.exec(hash);
-    $(".line .selected").removeClass("selected");
+    $(".line.selected").removeClass("selected");
     $(`#line-${lineNo}`).addClass("selected");
   }
 
