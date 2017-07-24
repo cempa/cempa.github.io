@@ -21,11 +21,11 @@ class PermaScript {
   setCanon(text) {
     this.canon = text.split("\n").map(this.normalizeLine).filter(this.nonEmptyLine);
     let container = $("#permascript");
-    let lineNos = $('<div class="line-nos col s1">').appendTo(container);
-    let lines = $('<div class="lines col s11">').appendTo(container);
+    let lineNos = $('<div class="line-nos col s2 m1">').appendTo(container);
+    let lines = $('<div class="lines col s10 m11">').appendTo(container);
     for (let [index, line] of this.canon.entries()) {
       index = index + 1;
-      lineNos.append($(`<div class="line-no"><a href="#${index}" id="${index}">${index}</div>`));
+      lineNos.append($(`<div class="line-no"><a href="#${index}" id="${index}"><span class="line-no-text">${index}</span></div>`));
       lines.append($(`<div id="line-${index}" class="line"><span class="line-text">${line}</span></div>`));
     }
     this.setPermahash(window.location.hash);
