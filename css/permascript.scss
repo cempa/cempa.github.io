@@ -6,7 +6,6 @@
 }
 
 .line-nos {
-  width: 4em;
   padding-right: 1em;
 
   .line-no {
@@ -26,6 +25,8 @@
 
 .lines {
   .line {
+    white-space: nowrap;
+
     &.selected .line-text {
       background-color: #fff176;
     }

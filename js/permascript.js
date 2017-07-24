@@ -21,8 +21,8 @@ class PermaScript {
   setCanon(text) {
     this.canon = text.split("\n").map(this.normalizeLine).filter(this.nonEmptyLine);
     let container = $("#permascript");
-    let lineNos = $('<div class="line-nos">').appendTo(container);
-    let lines = $('<div class="lines">').appendTo(container);
+    let lineNos = $('<div class="line-nos col s1">').appendTo(container);
+    let lines = $('<div class="lines col s11">').appendTo(container);
     for (let [index, line] of this.canon.entries()) {
       index = index + 1;
       lineNos.append($(`<div class="line-no"><a href="#${index}" id="${index}">${index}</div>`));
