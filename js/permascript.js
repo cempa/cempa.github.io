@@ -28,12 +28,12 @@ class PermaScript {
     let lines = $('<div class="lines col s10 m11">').appendTo(container);
     for (let [index, line] of this.canon.entries()) {
       index = index + 1;
-      lineNos.append($(`<div class="line-no"><a href="#${index}" id="${index}"><span class="line-no-text">${index}</span></div>`));
+      lineNos.append($(`<div class="line-no"><a href="#${index}"><span class="line-no-text">${index}</span></div>`));
       let wordNo = 1;
       let wordedLine = line.replace(/([A-Za-zæþðÆÞĐÐǽáéíóúýǼÁÉÍÓÚÝċĊġĠǣāēīōūȳǢĀĒĪŌŪȲ-]+)/g, function( word ) {
-        return `<span class="word" data-wordno="${wordNo++}">${word}</span>`
+        return `<span id="${index}.${wordNo}" class="word" data-wordno="${wordNo++}">${word}</span>`
       });
-      lines.append($(`<div id="line-${index}" class="line" data-lineno="${index}"><span class="line-text">${wordedLine}</span></div>`));
+      lines.append($(`<div id="${index}" class="line" data-lineno="${index}"><span class="line-text">${wordedLine}</span></div>`));
     }
     this.selectByHash(window.location.hash);
     window.location = window.location;
@@ -47,11 +47,21 @@ class PermaScript {
     return line.length > 0;
   }
 
+  findNode(addr) {
+    return $(`[id="${addr}"]`) || $(`#line-${addr}`);
+  }
+
   selectByHash(hash) {
-    let [address, lineNo] = /^#(\d+)/.exec(hash);
-    let lineNode = $(`#line-${lineNo}`).get(0);
+    hash = hash.replace(/^#/,"");
+    let [startAddr, endAddr] = hash.split("-")
+    let startNode = this.findNode(startAddr);
+    endAddr = endAddr || startAddr;
+    let endNode = this.findNode(endAddr);
+    let range = rangy.createRange();
+    range.selectNodeContents(startNode.get(0));
+    range.setEndAfter(endNode.get(0));
     let sel = rangy.getSelection();
-    sel.selectAllChildren(lineNode);
+    sel.setSingleRange(range);
   }
 
   handleLocationChange() {
@@ -76,15 +86,11 @@ class PermaScript {
 
   wordNodesToHash(nodes) {
     let firstNode = nodes[0], lastNode = nodes[ nodes.length - 1 ];
-    let firstLine = $(firstNode).closest(".line"), lastLine = $(lastNode).closest(".line");
-    let firstLineNo = $(firstLine).data("lineno");
-    let lastLineNo = $(lastLine).data("lineno");
-    let firstWordNo = $(firstNode).data("wordno");
-    let lastWordNo = $(lastNode).data("wordno");
-    let startAddr = firstLineNo;
-    if (firstWordNo > 1) {
-      startAddr += "." + firstWordNo;
+    let start = $(firstNode).prop("id"), end = $(lastNode).prop("id");
+    if (start === end) {
+      return `#${start}`;
+    } else {
+      return `#${start}-${end}`;
     }
-    return `#${startAddr}-${lastLineNo}.${lastWordNo}`;
   }
 }
