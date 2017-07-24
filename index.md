@@ -1,6 +1,6 @@
 ---
 layout: permascript
-title: Permalinkable Beowulf
+title: Beowulf in One Year
 canon: beowulf
 ---
 
