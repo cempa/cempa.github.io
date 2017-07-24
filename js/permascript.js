@@ -24,8 +24,8 @@ class PermaScript {
     let lines = $('<div class="lines">').appendTo(container);
     for (let [index, line] of this.canon.entries()) {
       index = index + 1;
-      lineNos.append($(`<div><a href="#${index}" id="${index}">${index}</div>`));
-      lines.append($(`<div id="line-${index}">`).text(line));
+      lineNos.append($(`<div class="line-no"><a href="#${index}" id="${index}">${index}</div>`));
+      lines.append($(`<div id="line-${index}" class="line">`).text(line));
     }
   };
 

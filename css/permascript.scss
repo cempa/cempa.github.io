@@ -4,3 +4,12 @@
 .line-nos, .lines {
   display: inline-block;
 }
+
+.line-nos {
+  width: 4em;
+  padding-right: 1em;
+
+  .line-no {
+    text-align: right;
+  }
+}
