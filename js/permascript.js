@@ -32,7 +32,7 @@ class PermaScript {
       let wordedLine = line.replace(/([A-Za-zæþðÆÞĐǽáéíóúýǼÁÉÍÓÚÝċĊġĠǣāēīōūȳǢĀĒĪŌŪȲ-]+)/g, '<span class="word">$1</span>')
       lines.append($(`<div id="line-${index}" class="line"><span class="line-text">${wordedLine}</span></div>`));
     }
-    this.setPermahash(window.location.hash);
+    this.selectByHash(window.location.hash);
     window.location = window.location;
   };
 
@@ -44,14 +44,15 @@ class PermaScript {
     return line.length > 0;
   }
 
-  setPermahash(hash) {
+  selectByHash(hash) {
     let [address, lineNo] = /^#(\d+)/.exec(hash);
-    $(".line.selected").removeClass("selected");
-    $(`#line-${lineNo}`).addClass("selected");
+    let lineNode = $(`#line-${lineNo}`).get(0);
+    let sel = rangy.getSelection();
+    sel.selectAllChildren(lineNode);
   }
 
   handleLocationChange() {
-    this.setPermahash(window.location.hash);
+    this.selectByHash(window.location.hash);
   }
 
   adjustSelection() {
