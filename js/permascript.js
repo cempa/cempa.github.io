@@ -29,9 +29,7 @@ class PermaScript {
     for (let [index, line] of this.canon.entries()) {
       index = index + 1;
       lineNos.append($(`<div class="line-no"><a href="#${index}" id="${index}"><span class="line-no-text">${index}</span></div>`));
-
       let wordedLine = line.replace(/([A-Za-zæþðÆÞĐǽáéíóúýǼÁÉÍÓÚÝċĊġĠǣāēīōūȳǢĀĒĪŌŪȲ-]+)/g, '<span class="word">$1</span>')
-
       lines.append($(`<div id="line-${index}" class="line"><span class="line-text">${wordedLine}</span></div>`));
     }
     this.setPermahash(window.location.hash);
