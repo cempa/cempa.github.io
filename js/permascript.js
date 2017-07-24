@@ -10,10 +10,8 @@ class PermaScript {
     $("#load-progress").show(500);
     let canonUrl = `/canon/${this.canonName}.txt`;
     $.get(canonUrl, this.receiveCanon.bind(this), "text");
-    $(window)
-      .on("popstate", this.handleLocationChange.bind(this));
-    $("body")
-      .on("mouseup", this.adjustSelection.bind(this));
+    $(window).on("hashchange", this.handleLocationChange.bind(this));
+    $("body").on("mouseup", this.adjustSelection.bind(this));
   }
 
   receiveCanon(text, status, jqxhr) {
@@ -31,12 +29,11 @@ class PermaScript {
       lineNos.append($(`<div class="line-no"><a href="#${index}"><span class="line-no-text">${index}</span></div>`));
       let wordNo = 1;
       let wordedLine = line.replace(/([A-Za-zæþðÆÞĐÐǽáéíóúýǼÁÉÍÓÚÝċĊġĠǣāēīōūȳǢĀĒĪŌŪȲ-]+)/g, function( word ) {
-        return `<span id="${index}.${wordNo}" class="word" data-wordno="${wordNo++}">${word}</span>`
+        return `<span data-addr="${index}.${wordNo}" class="word" data-wordno="${wordNo++}">${word}</span>`
       });
-      lines.append($(`<div id="${index}" class="line" data-lineno="${index}"><span class="line-text">${wordedLine}</span></div>`));
+      lines.append($(`<div data-addr="${index}" class="line" data-lineno="${index}"><span class="line-text">${wordedLine}</span></div>`));
     }
     this.selectByHash(window.location.hash);
-    window.location = window.location;
   };
 
   normalizeLine(line) {
@@ -48,13 +45,14 @@ class PermaScript {
   }
 
   findNode(addr) {
-    return $(`[id="${addr}"]`) || $(`#line-${addr}`);
+    return $(`[data-addr="${addr}"]`);
   }
 
   selectByHash(hash) {
     hash = hash.replace(/^#/,"");
-    let [startAddr, endAddr] = hash.split("-")
+    let [startAddr, endAddr] = hash.split("-");
     let startNode = this.findNode(startAddr);
+    if (startNode.length == 0) { return; }
     endAddr = endAddr || startAddr;
     let endNode = this.findNode(endAddr);
     let range = rangy.createRange();
@@ -62,10 +60,19 @@ class PermaScript {
     range.setEndAfter(endNode.get(0));
     let sel = rangy.getSelection();
     sel.setSingleRange(range);
+    this.scrollTo(startNode);
   }
 
-  handleLocationChange() {
+  scrollTo(node) {
+    $('html, body').animate({
+      scrollTop: $(node).offset().top - window.innerHeight / 4
+    }, 750);
+  }
+
+  handleLocationChange(e) {
+    e.preventDefault();
     this.selectByHash(window.location.hash);
+    return false;
   }
 
   adjustSelection() {
@@ -86,7 +93,7 @@ class PermaScript {
 
   wordNodesToHash(nodes) {
     let firstNode = nodes[0], lastNode = nodes[ nodes.length - 1 ];
-    let start = $(firstNode).prop("id"), end = $(lastNode).prop("id");
+    let start = $(firstNode).data("addr"), end = $(lastNode).data("addr");
     if (start === end) {
       return `#${start}`;
     } else {
