@@ -29,8 +29,11 @@ class PermaScript {
     for (let [index, line] of this.canon.entries()) {
       index = index + 1;
       lineNos.append($(`<div class="line-no"><a href="#${index}" id="${index}"><span class="line-no-text">${index}</span></div>`));
-      let wordedLine = line.replace(/([A-Za-zæþðÆÞĐǽáéíóúýǼÁÉÍÓÚÝċĊġĠǣāēīōūȳǢĀĒĪŌŪȲ-]+)/g, '<span class="word">$1</span>')
-      lines.append($(`<div id="line-${index}" class="line"><span class="line-text">${wordedLine}</span></div>`));
+      let wordNo = 1;
+      let wordedLine = line.replace(/([A-Za-zæþðÆÞĐÐǽáéíóúýǼÁÉÍÓÚÝċĊġĠǣāēīōūȳǢĀĒĪŌŪȲ-]+)/g, function( word ) {
+        return `<span class="word" data-wordno="${wordNo++}">${word}</span>`
+      });
+      lines.append($(`<div id="line-${index}" class="line" data-lineno="${index}"><span class="line-text">${wordedLine}</span></div>`));
     }
     this.selectByHash(window.location.hash);
     window.location = window.location;
@@ -61,13 +64,27 @@ class PermaScript {
       return;
     }
     let range = sel.getRangeAt(0);
-    var nodes = range.getNodes([Node.ELEMENT_NODE], function(node) {
+    var wordNodes = range.getNodes([Node.ELEMENT_NODE], function(node) {
       return $(node).hasClass("word");
     });
-    if (nodes.length > 0) {
-      range.setStartBefore(nodes[0]);
-      range.setEndAfter(nodes[ nodes.length - 1 ]);
+    if (wordNodes.length == 0) {
+      return;
     }
-    sel.setSingleRange(range);
+    let newHash = this.wordNodesToHash(wordNodes);
+    window.location.hash = newHash;
+  }
+
+  wordNodesToHash(nodes) {
+    let firstNode = nodes[0], lastNode = nodes[ nodes.length - 1 ];
+    let firstLine = $(firstNode).closest(".line"), lastLine = $(lastNode).closest(".line");
+    let firstLineNo = $(firstLine).data("lineno");
+    let lastLineNo = $(lastLine).data("lineno");
+    let firstWordNo = $(firstNode).data("wordno");
+    let lastWordNo = $(lastNode).data("wordno");
+    let startAddr = firstLineNo;
+    if (firstWordNo > 1) {
+      startAddr += "." + firstWordNo;
+    }
+    return `#${startAddr}-${lastLineNo}.${lastWordNo}`;
   }
 }
