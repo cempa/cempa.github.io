@@ -11,5 +11,15 @@
 
   .line-no {
     text-align: right;
+    a {
+      color: #efebe9;
+      &:hover {
+        color: #795548;
+      }
+    }
+
+    &:nth-child(5n) a {
+      color: #795548;
+    }
   }
 }
