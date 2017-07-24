@@ -11,9 +11,9 @@ class PermaScript {
     let canonUrl = `/canon/${this.canonName}.txt`;
     $.get(canonUrl, this.receiveCanon.bind(this), "text");
     $(window)
-      .on("popstate", this.onPopState.bind(this));
+      .on("popstate", this.handleLocationChange.bind(this));
     $("body")
-      .on("mouseup", this.onMouseUp.bind(this));
+      .on("mouseup", this.adjustSelection.bind(this));
   }
 
   receiveCanon(text, status, jqxhr) {
@@ -50,11 +50,11 @@ class PermaScript {
     $(`#line-${lineNo}`).addClass("selected");
   }
 
-  onPopState() {
+  handleLocationChange() {
     this.setPermahash(window.location.hash);
   }
 
-  onMouseUp(event) {
+  adjustSelection() {
     let sel = rangy.getSelection();
     if (sel.rangeCount != 1) {
       return;
