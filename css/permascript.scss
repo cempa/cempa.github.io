@@ -23,3 +23,11 @@
     }
   }
 }
+
+.lines {
+  .line {
+    &.selected .line-text {
+      background-color: #fff176;
+    }
+  }
+}
