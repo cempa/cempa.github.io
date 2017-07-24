@@ -27,6 +27,7 @@ class PermaScript {
       lineNos.append($(`<div class="line-no"><a href="#${index}" id="${index}">${index}</div>`));
       lines.append($(`<div id="line-${index}" class="line">`).text(line));
     }
+    window.location = window.location;
   };
 
   normalizeLine(line) {
