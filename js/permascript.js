@@ -10,7 +10,10 @@ class PermaScript {
     $("#load-progress").show(500);
     let canonUrl = `/canon/${this.canonName}.txt`;
     $.get(canonUrl, this.receiveCanon.bind(this), "text");
-    $(window).on("popstate", this.onPopState.bind(this));
+    $(window)
+      .on("popstate", this.onPopState.bind(this));
+    $("body")
+      .on("mouseup", this.onMouseUp.bind(this));
   }
 
   receiveCanon(text, status, jqxhr) {
@@ -48,5 +51,21 @@ class PermaScript {
 
   onPopState() {
     this.setPermahash(window.location.hash);
+  }
+
+  onMouseUp(event) {
+    let sel = rangy.getSelection();
+    if (sel.rangeCount != 1) {
+      return;
+    }
+    let range = sel.getRangeAt(0);
+    var nodes = range.getNodes([Node.ELEMENT_NODE], function(node) {
+      return $(node).hasClass("line");
+    });
+    if (nodes.length > 0) {
+      range.setStartBefore(nodes[0]);
+      range.setEndAfter(nodes[ nodes.length - 1 ]);
+    }
+    sel.setSingleRange(range);
   }
 }
