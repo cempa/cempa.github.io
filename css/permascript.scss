@@ -23,6 +23,11 @@
   }
 }
 
+#selection-menu {
+  display: none;
+  position: absolute;
+}
+
 *::selection {
   background-color: #fff9c4;
 }

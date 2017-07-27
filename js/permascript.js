@@ -8,10 +8,11 @@ class PermaScript {
 
   setup() {
     $("#load-progress").show(500);
+    this.selectionMenu = $("#selection-menu");
     let canonUrl = `/canon/${this.canonName}.txt`;
     $.get(canonUrl, this.receiveCanon.bind(this), "text");
     $(window).on("hashchange", this.handleLocationChange.bind(this));
-    $("body").on("mouseup", this.adjustSelection.bind(this));
+    $("body").on("mouseup", this.handleSelection.bind(this));
   }
 
   receiveCanon(text, status, jqxhr) {
@@ -74,7 +75,7 @@ class PermaScript {
     return false;
   }
 
-  adjustSelection() {
+  handleSelection() {
     let sel = rangy.getSelection();
     if (sel.rangeCount != 1) {
       return;
@@ -90,6 +91,11 @@ class PermaScript {
     window.location.hash = newHash;
   }
 
+  showSelectionMenu() {
+    // calculate menu position
+    // display the menu
+  }
+
   wordNodesToHash(nodes) {
     let firstNode = nodes[0], lastNode = nodes[ nodes.length - 1 ];
     let start = $(firstNode).data("addr"), end = $(lastNode).data("addr");
@@ -101,6 +107,6 @@ class PermaScript {
   }
 }
 
-Permascript.setup = function(canon) {
-  new Permascript(canon).setup();
+PermaScript.setup = function(canon) {
+  new PermaScript(canon).setup();
 }
