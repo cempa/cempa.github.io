@@ -100,3 +100,7 @@ class PermaScript {
     }
   }
 }
+
+Permascript.setup = function(canon) {
+  new Permascript(canon).setup();
+}
