@@ -99,9 +99,16 @@ class PermaScript {
       return;
     }
     let range = sel.getRangeAt(0);
-    return range.getNodes([Node.ELEMENT_NODE], function(node) {
+    let result = range.getNodes([Node.ELEMENT_NODE], function(node) {
       return $(node).hasClass("word");
     });
+    if (result.length === 0) {
+      let textNodes = range.getNodes([Node.TEXT_NODE]);
+      if (textNodes.length === 1) {
+        return $(textNodes[0]).closest(".word");
+      }
+    }
+    return result;
   }
 
   handleSelection() {
