@@ -31,7 +31,7 @@ class PermaScript {
       let wordedLine = line.replace(/([A-Za-zæþðÆÞĐÐǽáéíóúýǼÁÉÍÓÚÝċĊġĠǣāēīōūȳǢĀĒĪŌŪȲ-]+)/g, function( word ) {
         return `<span data-addr="${index}.${wordNo}" class="word" data-wordno="${wordNo++}">${word}</span>`
       });
-      lines.append($(`<div data-addr="${index}" class="line" data-lineno="${index}"><span class="line-text">${wordedLine}</span></div>`));
+      lines.append($(`<div class="line" data-lineno="${index}"><span data-addr="${index}"class="line-text">${wordedLine}</span></div>`));
     }
     this.selectByHash(window.location.hash);
   };
@@ -63,6 +63,24 @@ class PermaScript {
     this.scrollTo(startNode);
   }
 
+  showSelectionMenu() {
+    let wordNodes = this.getSelectedWordNodes();
+    if (wordNodes.length == 0) { return; }
+    let offset = $(wordNodes[0]).offset();
+    for(let node of wordNodes) {
+      let nodeRight = $(node).offset().left + $(node).width();
+      if (offset.left < nodeRight) {
+        offset.left = nodeRight;
+      }
+    }
+    offset.left += 10;
+    this.selectionMenu.show().offset(offset);
+  }
+
+  hideSelectionMenu() {
+    this.selectionMenu.hide();
+  }
+
   scrollTo(node) {
     $('html, body').animate({
       scrollTop: $(node).offset().top - window.innerHeight / 4
@@ -75,25 +93,26 @@ class PermaScript {
     return false;
   }
 
-  handleSelection() {
+  getSelectedWordNodes() {
     let sel = rangy.getSelection();
     if (sel.rangeCount != 1) {
       return;
     }
     let range = sel.getRangeAt(0);
-    var wordNodes = range.getNodes([Node.ELEMENT_NODE], function(node) {
+    return range.getNodes([Node.ELEMENT_NODE], function(node) {
       return $(node).hasClass("word");
     });
+  }
+
+  handleSelection() {
+    let wordNodes = this.getSelectedWordNodes();
     if (wordNodes.length == 0) {
+      this.hideSelectionMenu();
       return;
     }
     let newHash = this.wordNodesToHash(wordNodes);
     window.location.hash = newHash;
-  }
-
-  showSelectionMenu() {
-    // calculate menu position
-    // display the menu
+    this.showSelectionMenu();
   }
 
   wordNodesToHash(nodes) {
