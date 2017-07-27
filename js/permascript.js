@@ -103,10 +103,11 @@ class PermaScript {
       return $(node).hasClass("word");
     });
     if (result.length === 0) {
-      let textNodes = range.getNodes([Node.TEXT_NODE]);
-      if (textNodes.length === 1) {
-        return $(textNodes[0]).closest(".word");
-      }
+      result = range.getNodes([Node.TEXT_NODE]).map(function(textNode){
+        return $(textNode).closest(".word");
+      }).filter(function(node) {
+        return node;
+      });
     }
     return result;
   }
