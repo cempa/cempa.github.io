@@ -1,35 +1,25 @@
 ---
 ---
 
-.line-nos, .lines {
-  display: inline-block;
-}
-
-.line-nos {
-  padding-right: 1em;
-
-  .line-no {
-    text-align: right;
-    a {
-      color: #efebe9;
-      &:hover {
-        color: #795548;
-      }
-    }
-
-    &:nth-child(5n) a {
+.line-no {
+  text-align: right;
+  a {
+    color: #efebe9;
+    &:hover {
       color: #795548;
     }
   }
+
+  &:nth-child(5n) a {
+    color: #795548;
+  }
 }
 
-.lines {
-  .line {
-    white-space: nowrap;
+.line {
+  white-space: nowrap;
 
-    &.selected .line-text {
-      background-color: #fff176;
-    }
+  &.selected .line-text {
+    background-color: #fff176;
   }
 }
 
