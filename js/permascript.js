@@ -12,7 +12,9 @@ class PermaScript {
     let canonUrl = `/canon/${this.canonName}.txt`;
     $.get(canonUrl, this.receiveCanon.bind(this), "text");
     $(window).on("hashchange", this.handleLocationChange.bind(this));
-    $("body").on("mouseup", this.handleSelection.bind(this));
+    $("body")
+      .on("mouseup", this.handleSelection.bind(this))
+      .on("keydown", this.handleKeydown.bind(this));
   }
 
   receiveCanon(text, status, jqxhr) {
@@ -79,6 +81,14 @@ class PermaScript {
 
   hideSelectionMenu() {
     this.selectionMenu.hide();
+  }
+
+  handleKeydown(event) {
+    if (this.selectionMenu.is(":visible") && event.key == "Escape") {
+      event.preventDefault();
+      this.hideSelectionMenu();
+      return false;
+    }
   }
 
   scrollTo(node) {
