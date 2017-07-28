@@ -95,7 +95,6 @@ class PermaScript {
   facebookQuote() {
     FB.ui({
       method: 'share',
-      href: window.location,
       quote: this.getSelectedText()
     }, function(response){
     });
