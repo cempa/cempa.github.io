@@ -19,6 +19,9 @@ class PermaScript {
       event.preventDefault();
       this.facebookQuote();
     }.bind(this));
+    $("a[href='#worksheet']").on("click", function(event) {
+      event.preventDefault();
+    }.bind(this));
   }
 
   receiveCanon(text, status, jqxhr) {
