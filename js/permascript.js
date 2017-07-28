@@ -15,7 +15,10 @@ class PermaScript {
     $("body")
       .on("mouseup", this.handleSelection.bind(this))
       .on("keydown", this.handleKeydown.bind(this));
-    $("a[href='#quote']").on("click", this.facebookQuote.bind(this));
+    $("a[href='#quote']").on("click", => (event) {
+      event.preventDefault();
+      this.facebookQuote();
+    });
   }
 
   receiveCanon(text, status, jqxhr) {
