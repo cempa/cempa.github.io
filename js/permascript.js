@@ -40,7 +40,7 @@ class PermaScript {
       let wordedLine = line.replace(/([A-Za-zæþðÆÞĐÐǽáéíóúýǼÁÉÍÓÚÝċĊġĠǣāēīōūȳǢĀĒĪŌŪȲ-]+)/g, function( word ) {
         return `<span data-addr="${index}.${wordNo}" class="word" data-wordno="${wordNo++}">${word}</span>`
       });
-      lines.append($(`<div class="line" data-lineno="${index}"><span data-addr="${index}"class="line-text">${wordedLine}</span></div>`));
+      lines.append($(`<div class="line" data-lineno="${index}"><span data-addr="${index}"class="line-text">${wordedLine}</span>\n</div>`));
     }
     this.selectByHash(window.location.hash);
   };
