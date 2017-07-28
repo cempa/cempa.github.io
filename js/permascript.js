@@ -101,7 +101,7 @@ class PermaScript {
   facebookQuote() {
     FB.ui({
       method: 'share',
-      quote: this.getSelectedText().replace("\n", "<br>"),
+      quote: this.getSelectedText(),
       href: window.location.toString()
     }, function(response){
     });
