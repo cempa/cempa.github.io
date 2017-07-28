@@ -15,6 +15,7 @@ class PermaScript {
     $("body")
       .on("mouseup", this.handleSelection.bind(this))
       .on("keydown", this.handleKeydown.bind(this));
+    $("a[href='#quote']").on("click", this.facebookQuote.bind(this));
   }
 
   receiveCanon(text, status, jqxhr) {
@@ -89,6 +90,13 @@ class PermaScript {
       this.hideSelectionMenu();
       return false;
     }
+  }
+
+  facebookQuote() {
+    FB.ui({
+      method: 'share',
+    }, function(response){
+    });
   }
 
   scrollTo(node) {
