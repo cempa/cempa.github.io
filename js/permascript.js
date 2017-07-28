@@ -95,8 +95,14 @@ class PermaScript {
   facebookQuote() {
     FB.ui({
       method: 'share',
+      href: window.location,
+      quote: this.getSelectedText()
     }, function(response){
     });
+  }
+
+  getSelectedText() {
+    return rangy.getSelection().toString();
   }
 
   scrollTo(node) {
