@@ -1,0 +1,6 @@
+exclude:
+  - bin
+  - node_modules
+  - lib
+browserify:
+  command: "$(npm bin)/browserify -t [ babelify --presets [ es2015 react ] ] -"

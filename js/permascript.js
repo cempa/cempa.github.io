@@ -1,6 +1,8 @@
 ---
 ---
 
+import TextSheet from "./lib/text-sheet";
+
 class PermaScript {
   constructor(canonName) {
     this.canonName = canonName;
@@ -179,3 +181,5 @@ class PermaScript {
 PermaScript.setup = function(canon) {
   new PermaScript(canon).setup();
 }
+
+window.PermaScript = PermaScript;

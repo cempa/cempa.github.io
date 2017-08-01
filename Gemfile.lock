@@ -8,10 +8,7 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
-    babel-source (5.8.35)
-    babel-transpiler (0.7.0)
-      babel-source (>= 4.0, < 6)
-      execjs (~> 2.0)
+    browserify_rb (1.0.0)
     coffee-script (2.4.1)
       coffee-script-source
       execjs
@@ -90,8 +87,8 @@ GEM
       safe_yaml (~> 1.0)
     jekyll-avatar (0.4.2)
       jekyll (~> 3.0)
-    jekyll-babel (1.1.0)
-      babel-transpiler
+    jekyll-browserify (1.1.1)
+      browserify_rb (~> 1.0.0)
     jekyll-coffeescript (1.0.1)
       coffee-script (~> 2.2)
     jekyll-default-layout (0.1.4)
@@ -204,7 +201,7 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
-  jekyll-babel
+  jekyll-browserify
 
 BUNDLED WITH
    1.15.1
