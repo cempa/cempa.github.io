@@ -1,6 +1,3 @@
----
----
-
 class PermaScript {
   constructor(canonName) {
     this.canonName = canonName;
