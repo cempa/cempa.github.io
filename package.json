@@ -1,0 +1,14 @@
+{
+  "name": "permascript",
+    "version": "0.1",
+    "description": "Manuscripts with permalinks",
+    "authors": [
+      {
+        "name": "artm",
+        "email": "abaguinski@gmail.com"
+      }
+    ],
+    "license": "MIT",
+    "devDependencies": {
+    }
+}
