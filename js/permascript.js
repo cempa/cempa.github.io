@@ -7,22 +7,28 @@ class PermaScript {
   }
 
   setup() {
+    $(".modal").modal();
     $("#load-progress").show(500);
     this.selectionMenu = $("#selection-menu");
     let canonUrl = `/canon/${this.canonName}.txt`;
     $.get(canonUrl, this.receiveCanon.bind(this), "text");
     $(window).on("hashchange", this.handleLocationChange.bind(this));
     $("body")
-      .on("mouseup", this.handleSelection.bind(this))
       .on("keydown", this.handleKeydown.bind(this));
+    $("#lines")
+      .on("mouseup", this.adjustSelection.bind(this))
+      .on("contextmenu", this.showContextMenu.bind(this));
+    $("a").on("click", this.preventDefault);
     $("a[href='#quote']").on("click", function(event) {
-      event.preventDefault();
+      this.hideSelectionMenu();
       this.facebookQuote();
     }.bind(this));
     $("a[href='#worksheet']").on("click", function(event) {
-      event.preventDefault();
+      this.hideSelectionMenu();
     }.bind(this));
   }
+
+  preventDefault(event) { event.preventDefault(); }
 
   receiveCanon(text, status, jqxhr) {
     $("#load-progress").hide(500);
@@ -103,9 +109,7 @@ class PermaScript {
       method: 'share',
       quote: this.getSelectedText(),
       href: window.location.toString()
-    }, function(response){
-      this.hideSelectionMenu()
-    }.bind(this));
+    }, function(response){ });
   }
 
   getSelectedText() {
@@ -118,8 +122,8 @@ class PermaScript {
     }, 750);
   }
 
-  handleLocationChange(e) {
-    e.preventDefault();
+  handleLocationChange(event) {
+    event.preventDefault();
     this.selectByHash(window.location.hash);
     return false;
   }
@@ -143,7 +147,7 @@ class PermaScript {
     return result;
   }
 
-  handleSelection() {
+  adjustSelection(event) {
     let wordNodes = this.getSelectedWordNodes();
     if (wordNodes.length == 0) {
       this.hideSelectionMenu();
@@ -151,7 +155,14 @@ class PermaScript {
     }
     let newHash = this.wordNodesToHash(wordNodes);
     window.location.hash = newHash;
-    this.showSelectionMenu();
+  }
+
+  showContextMenu(event) {
+    event.preventDefault();
+    let sel = rangy.getSelection();
+    if (sel.rangeCount === 1 && !sel.getRangeAt(0).collapsed) {
+      this.showSelectionMenu();
+    }
   }
 
   wordNodesToHash(nodes) {

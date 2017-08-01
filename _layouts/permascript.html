@@ -51,8 +51,17 @@
     <ul id="selection-menu" class="dropdown-content hoverable">
       <!-- TODO replace these with icons -->
       <li><a href="#quote">Quote</a></li>
-      <li><a href="#worksheet">Hƿæt</a></li>
+      <li><a href="#worksheet" class="modal-trigger">Hƿæt</a></li>
     </ul>
+
+    <div id="worksheet" class="modal bottom-sheet">
+      <div class="modal-content">
+        <h4>Hƿæt</h4>
+      </div>
+      <div class="modal-footer">
+        <a href="#done" class="modal-action modal-close waves-effect waves-green btn-flat ">Done</a>
+      </div>
+    </div>
 
     <script>
       PermaScript.setup("{{ page.canon }}");
