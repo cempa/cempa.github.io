@@ -104,7 +104,8 @@ class PermaScript {
       quote: this.getSelectedText(),
       href: window.location.toString()
     }, function(response){
-    });
+      this.hideSelectionMenu()
+    }.bind(this));
   }
 
   getSelectedText() {
