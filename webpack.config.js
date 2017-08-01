@@ -1,7 +1,7 @@
 module.exports = {
   entry: "./js/permascript.js",
   output: {
-    path: "src/js/",
+    path: __dirname + "/src/js/",
     filename: "permascript.js"
   },
   module: {
@@ -9,7 +9,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /(node_modules)/,
-        loader: "babel",
+        loader: "babel-loader",
         query: {
           presets: ["react", "es2015"]
         }

@@ -176,3 +176,5 @@ class PermaScript {
 PermaScript.setup = function(canon) {
   new PermaScript(canon).setup();
 }
+
+window.PermaScript = PermaScript;
